@@ -67,6 +67,11 @@ Follow these instructions to get the project up and running on your local machin
     -   The application will be available at `http://localhost:8080/api`.
     -   The Swagger API documentation will be at `http://localhost:8080/api/docs`.
 
+If you need to run tests, you have to download Node.js v20+, install Yarn and dependencies. After that, you can run the tests with:
+```bash
+yarn test
+```
+
 ## Project Structure Overview
 
 The project is organized by feature (`user`), with each feature module containing its own Clean Architecture layers. This approach is highly scalable.
