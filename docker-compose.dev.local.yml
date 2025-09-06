@@ -1,0 +1,47 @@
+networks:
+  real-ddd-clean-architecture-cqrs-example-nest-js-network:
+    driver: bridge
+
+services:
+  real-ddd-clean-architecture-cqrs-example-nest-js-web-api:
+    ports:
+      - '${WEB_API_PORT}:${WEB_API_PORT}'
+    depends_on:
+      real-ddd-clean-architecture-cqrs-example-nest-js-postgres:
+        condition: service_healthy
+    networks:
+      - real-ddd-clean-architecture-cqrs-example-nest-js-network
+    environment:
+      - NODE_ENV=development
+      - HOST=local
+    build:
+      context: .
+      dockerfile: Dockerfile.dev.local
+      args:
+        - APP_PORT=${WEB_API_PORT}
+    container_name: real-ddd-clean-architecture-cqrs-example-nest-js-copy
+    restart:
+      on-failure
+
+  real-ddd-clean-architecture-cqrs-example-nest-js-postgres:
+    image: postgres:latest
+    container_name: real-ddd-clean-architecture-cqrs-example-nest-js-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - real-ddd-clean-architecture-cqrs-example-nest-js-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
+    driver: local

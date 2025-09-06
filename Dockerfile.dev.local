@@ -1,0 +1,23 @@
+FROM node:24-alpine
+
+ARG APP_PORT=8080
+
+WORKDIR /app
+
+ENV PORT=${APP_PORT}
+
+RUN npm install -g npm
+
+COPY package*.json ./
+
+RUN npm install yarn --global --force
+
+RUN yarn install --ignore-engines
+
+COPY . .
+
+RUN yarn build
+
+EXPOSE ${PORT}
+
+CMD ["sh", "-c", "yarn migration:up:dev && yarn start:dev"]
