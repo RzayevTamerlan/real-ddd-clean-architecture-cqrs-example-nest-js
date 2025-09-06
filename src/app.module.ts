@@ -5,7 +5,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { getConfigModuleConfig } from '@shared/configs/getConfigModuleConfig';
 import ormConfig from '@shared/infrastructure/persistence/mikro-orm/db/mikro-orm.config';
-import { UserModule } from '@user/application/user.module';
+import { UserModule } from '@user/user.module';
 
 import { AppController } from './app.controller';
 

@@ -49,9 +49,6 @@ We model our software around the business domain, ensuring the code is a direct 
 Follow these instructions to get the project up and running on your local machine.
 
 ### Prerequisites
-
--   [Node.js](https://nodejs.org/) (v18 or later recommended)
--   [yarn](https://yarnpkg.com/) (or `npm`/`pnpm`)
 -   [Docker](https://www.docker.com/) and Docker Compose
 
 ### Installation & Running
@@ -63,7 +60,7 @@ Follow these instructions to get the project up and running on your local machin
     ```
 
 2.  **Run the application in development mode**
-    This command builds and starts the Docker containers for the NestJS application and the PostgreSQL database. The `-d` flag runs the containers in detached mode. The application will automatically reload on file changes.
+    This command builds and starts the Docker containers for the NestJS application and the PostgreSQL database. The `-d` flag runs the containers in detached mode.
     ```bash
     docker-compose --env-file .env.development.local -f docker-compose.dev.local.yml up --build -d
     ```
@@ -123,7 +120,7 @@ To make the architecture concrete, here is the lifecycle of a request to create 
 5.  **Dispatching (`CommandBus`):** If the command is valid, it's dispatched via the `commandBus`.
 6.  **Handler (`create-user.handler.ts`):** The `CreateUserCommandHandler` receives the command.
 7.  **Repository Interaction:** The handler uses the `IUserRepository` to check if a user with that email already exists. If so, it returns a `Result.failure(DomainError.conflict(...))`.
-8.  **Domain Logic:** The handler calls the static factory method `User.create(command)`. The `User` domain model hashes the password, sets default values (`role`, `status`), and registers a `UserCreatedEvent` within itself.
+8.  **Domain Logic:** The handler calls the static factory method `User.create(command)`. The `User` domain model hashes the password, sets default values (`status`), and registers a `UserCreatedEvent` within itself.
 9.  **Persistence (`UnitOfWork`):** The handler calls `userRepository.save(user)`. The `MikroOrmUserRepository` uses `em.persist()` to add the new user entity to the **Unit of Work**. It **does not** hit the database yet.
 10. **Transaction Commit:** The `CommandHandlerBase` calls `unitOfWork.commitChanges()`, which triggers `em.flush()`. MikroORM now runs the `INSERT` query inside a transaction.
 11. **Event Dispatching:** After the transaction is successfully committed, `CommandHandlerBase` dispatches the `UserCreatedEvent` via the `IDomainEventDispatcher`.
