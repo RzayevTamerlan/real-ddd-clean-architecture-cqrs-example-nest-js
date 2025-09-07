@@ -1,4 +1,3 @@
-import { DomainError } from '@shared/domain/domain-error';
 import { PersonName } from '@user/domain/value-objects/person-name.vo';
 
 describe('PersonName Value Object', () => {

@@ -1,4 +1,5 @@
 import { DomainError } from '@shared/domain/domain-error';
+import {normalizeString} from "@shared/utils/normalizeString";
 
 export class Email {
   private readonly value: string;
@@ -13,7 +14,7 @@ export class Email {
       throw DomainError.badRequest('Email cannot be empty.');
     }
 
-    const trimmedLowercased = value.trim().toLowerCase();
+    const trimmedLowercased = normalizeString(value);
     const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
     if (!emailRegex.test(trimmedLowercased)) {
