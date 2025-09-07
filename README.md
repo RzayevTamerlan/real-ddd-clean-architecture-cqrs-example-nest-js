@@ -28,7 +28,7 @@ We strictly separate operations that change state from those that only read it.
 
 We model our software around the business domain, ensuring the code is a direct reflection of business rules.
 -   **Aggregate:** A cluster of domain objects treated as a single unit. Our `User` model is the **Aggregate Root**.
--   **Value Object:** An immutable object whose identity is based on its attributes, not a unique ID (e.g., `Password`, `Email`, `PersonName`).
+-   **Value Object:** An immutable object whose identity is based on its attributes, not a unique ID (e.g., `Password`, `Email`, `PersonName`). So, two Value Objects with the same attributes are considered equal.
 -   **Repository:** An abstraction over the persistence layer, providing a clean interface for the Application layer to access domain objects.
 -   **Unit of Work:** A pattern that tracks changes to aggregates and commits them to the database atomically (in one transaction).
 -   **Domain Event:** A record of something significant that happened in the domain. Used for decoupling side effects (e.g., sending an email after a user is created).

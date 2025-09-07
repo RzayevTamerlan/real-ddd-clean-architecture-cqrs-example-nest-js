@@ -27,4 +27,8 @@ export class PhoneNumber {
   public getValue(): string {
     return this.value;
   }
+
+  public equals(other: PhoneNumber): boolean {
+    return this.value === other.value;
+  }
 }

@@ -30,4 +30,8 @@ export class PersonName {
   public getValue(): string {
     return this.value;
   }
+
+  public equals(other: PersonName): boolean {
+    return this.value === other.value;
+  }
 }
